@@ -1,0 +1,28 @@
+
+name: Push Docker Images
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build and Push docker image
+        env:
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        run : |
+          docker --version
+          docker build -t simple-node .
+          docker tag simple-node YOUR_DOCKER_HUB/simple-node:latest
+
+          echo "$$DOCKERHUB_PASSWORD" | docker login -u "$$DOCKERHUB_USERNAME" --password-stdin
+          docker push mzulqarnain1/simple-node:tagname
+
