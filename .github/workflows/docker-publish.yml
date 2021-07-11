@@ -18,8 +18,8 @@ jobs:
         run : |
           docker --version
           docker build -t simple-node .
-          docker tag simple-node mzulqarnain1/simple-node:${GITHUB_SHA}
+          docker tag simple-node mzulqarnain1/simple-node:latest
 
           echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-          docker push mzulqarnain1/simple-node:${GITHUB_SHA}
+          docker push mzulqarnain1/simple-node:latest
 
